@@ -2,7 +2,6 @@ package io.marcofracassi
 
 import daikon.HttpServer
 import daikon.core.HttpStatus.OK_200
-import io.github.bonigarcia.wdm.WebDriverManager
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
