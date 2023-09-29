@@ -17,11 +17,10 @@ class EndToEndTests {
     private val awsEndpoint = "http://localhost:4566"
     private val connection = DbConnection("localhost:5432")
     private val sqsMessage = SqsMessage(awsEndpoint, "events_queue")
-    private lateinit var browser: WebDriver
+    private val browser = ChromeDriver()
 
     @BeforeEach
     fun beforeEach() {
-        browser = ChromeDriver()
         app.start()
         sqsMessage.empty()
         DbCartRepository(connection).empty()
@@ -48,6 +47,7 @@ class EndToEndTests {
 
     @Test
     fun payByCash() {
+        // open home page and click on Potato
         browser.get("http://localhost:4545/")
         browser.findElement(id("button-Potato")).click()
 
@@ -61,11 +61,14 @@ class EndToEndTests {
 
     @Test
     fun payByExternalSystem() {
+        // stab external payment system
         HttpServer(4546) {
             post("/") { _, res, _ -> res.status(OK_200) }
         }.start().use {
+            // open home page and click on Potato
             browser.get("http://localhost:4545/")
             browser.findElement(id("button-Potato")).click()
+
             // assert that potato is into the cart
             assertThat(browser.findElements(className("cart-item")).single().text).isEqualTo("Potato")
 
@@ -80,12 +83,14 @@ class EndToEndTests {
 
     @Test
     fun bigCart() {
+        // open home page and click on Potato 4 times
         browser.get("http://localhost:4545/")
         browser.findElement(id("button-Potato")).click()
         browser.findElement(id("button-Potato")).click()
         browser.findElement(id("button-Potato")).click()
         browser.findElement(id("button-Potato")).click()
 
+        // assert that event exists in the queue
         SqsMessage(awsEndpoint, "events_queue").assertExists("big_cart_created")
     }
 }
