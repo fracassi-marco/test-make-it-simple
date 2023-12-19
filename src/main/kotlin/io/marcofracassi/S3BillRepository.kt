@@ -33,7 +33,7 @@ class S3BillRepository(private val endpoint: String) : BillRepository {
         return S3Client.builder()
             .credentialsProvider(credentialsProvider)
             .endpointOverride(URI(endpoint))
-            .region(Region.AWS_GLOBAL)
+            .region(Region.EU_WEST_1)
             .build()
     }
 }
