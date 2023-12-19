@@ -28,7 +28,7 @@ class EndToEndTests {
             Product(
                 name = "Potato",
                 description = null,
-                image = "http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/potato.png",
+                image = "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/potato.png",
                 availableQuantity = null,
                 bookedQuantity = null
             )
